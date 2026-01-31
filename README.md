@@ -24,6 +24,12 @@ personality:
   autonomy: 7     # Acts, then reports
 boundaries:
   max_adulation: 3  # Zero sycophancy
+
+# This is my SOMA (optional soft skills)
+soma:
+  context_awareness: 8     # Remembers, anticipates
+  emotional_intelligence: 6  # Reads the room
+  adaptability: 7          # Learns from feedback
 ```
 
 ---
@@ -118,6 +124,34 @@ High adulation:
 - Soft agreement instead of correction
 
 AURA's `honesty` trait and `max_adulation` boundary directly control this.
+
+---
+
+## SOMA — Soft Skills (Optional)
+
+While AURA defines *who* your agent is, **SOMA** (Skill Operations & Mental Agility) defines *what* your agent can do.
+
+| Skill | What it measures |
+|-------|------------------|
+| `context_awareness` | State modeling, memory, coherence |
+| `emotional_intelligence` | Sentiment-aware responses |
+| `communication` | Style adaptation, clarity |
+| `ethics` | Refusal handling, uncertainty disclosure |
+| `adaptability` | Feedback integration, learning |
+
+SOMA is optional — omit it for AURA-only mode, or add it for a complete agent definition.
+
+```yaml
+soma:
+  enabled: true
+  context_awareness: 7
+  emotional_intelligence: 6
+  communication: 6
+  ethics: 8
+  adaptability: 7
+```
+
+See [SPEC.md](./SPEC.md#6-soma--soft-skills--capabilities-optional) for full documentation.
 
 ---
 
