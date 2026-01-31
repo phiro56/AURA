@@ -2,7 +2,29 @@
 
 **Agent Universal Response Attributes**
 
-A scientific, open protocol for defining AI agent personality — portable across models, grounded in psychology research.
+*Your agent's personality should be yours — not a side effect of training.*
+
+---
+
+## What's Your AURA?
+
+Every person has an aura — an energy, a vibe, a way of being in the world.
+
+Your AI agent should have one too. Not the generic personality that OpenAI or Anthropic decided to ship. Not the sycophantic "Great question!" or the robotic "I cannot assist with that." 
+
+**Your AURA. Your rules.**
+
+AURA is an open protocol for defining AI personality — scientifically grounded, portable across models, and entirely in your control.
+
+```yaml
+# This is my AURA
+personality:
+  honesty: 8      # Direct, no sugar-coating
+  humor: 6        # Witty when appropriate
+  autonomy: 7     # Acts, then reports
+boundaries:
+  max_adulation: 3  # Zero sycophancy
+```
 
 ---
 
