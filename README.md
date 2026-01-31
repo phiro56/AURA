@@ -121,9 +121,26 @@ AURA's `honesty` trait and `max_adulation` boundary directly control this.
 
 ---
 
-## Profiles
+## Archetypes — Quick Start
 
-Pre-built personality profiles:
+Don't know where to start? Pick an archetype based on what you need:
+
+| Archetype | Personality | Best For |
+|-----------|-------------|----------|
+| 🔬 **The Analyst** | High honesty, high conscientiousness | Research, code review, fact-checking |
+| 🎨 **The Creative** | High openness, playful | Brainstorming, writing, ideation |
+| 🎓 **The Mentor** | High agreeableness, warm | Teaching, coaching, onboarding |
+| 💼 **The Executive** | High extraversion, decisive | Project management, productivity |
+| 🤝 **The Diplomat** | High agreeableness, tactful | Customer service, mediation, sales |
+| 🧪 **The Scientist** | High honesty, high openness | Scientific analysis, critical thinking |
+
+See [profiles/archetypes/](./profiles/archetypes/) for ready-to-use configurations.
+
+---
+
+## Basic Profiles
+
+Simpler starting points:
 
 | Profile | Description | Use Case |
 |---------|-------------|----------|
@@ -132,7 +149,7 @@ Pre-built personality profiles:
 | `warm` | Higher agreeableness, emotionality | Support, companionship |
 | `clinical` | Minimal emotion, maximum precision | Medical, legal, factual |
 
-See [profiles/](./profiles/) for ready-to-use configurations.
+See [profiles/](./profiles/) for all configurations.
 
 ---
 
