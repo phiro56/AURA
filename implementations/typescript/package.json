@@ -1,0 +1,49 @@
+{
+  "name": "aura-loader",
+  "version": "0.1.0",
+  "description": "AURA Protocol loader - Load and convert AI personality profiles to system prompts",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "aura",
+    "ai",
+    "personality",
+    "agent",
+    "llm",
+    "hexaco",
+    "system-prompt"
+  ],
+  "author": "Daniel Phillips",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/phiro56/AURA.git",
+    "directory": "implementations/typescript"
+  },
+  "dependencies": {
+    "yaml": "^2.3.4",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^25.1.0",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
