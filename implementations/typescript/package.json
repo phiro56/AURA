@@ -1,6 +1,6 @@
 {
   "name": "aura-loader",
-  "version": "0.1.0",
+  "version": "0.1.0-beta.1",
   "description": "AURA Protocol loader - Load and convert AI personality profiles to system prompts",
   "type": "module",
   "main": "dist/index.js",
