@@ -1,229 +1,186 @@
-# AURA Installation Guide for AI Agents
+# Installing AURA
 
-*Read this file to understand how to install and use AURA.*
-
----
-
-## What is AURA?
-
-**AURA** (Agent Universal Response Attributes) is a protocol for defining your personality.
-
-**SOMA** (Skill Operations & Mental Agility) is an optional extension for defining your capabilities.
-
-- **AURA** = Who you are (personality traits)
-- **SOMA** = What you can do (soft skills)
-
-Together, they give you a complete, configurable identity.
+Choose the installation method that fits your setup.
 
 ---
 
-## Quick Install
+## 🎯 Option 1: ClawHub (Easiest)
 
-### Step 1: Read the Spec
-Read `SPEC.md` in this repository to understand all available traits and their meanings.
+For OpenClaw/Clawdbot users:
 
-### Step 2: Choose a Profile
+```bash
+# Install the AURA skill
+clawhub install aura
 
-**Ask your human which profile they prefer:**
+# Start a new session, then:
+/aura
+```
 
-#### Archetypes (recommended for quick start)
-| Archetype | Description | Best For |
-|-----------|-------------|----------|
-| 🔬 `the-analyst` | High honesty, precise, thorough | Research, code review, fact-checking |
-| 🎨 `the-creative` | High openness, playful, imaginative | Brainstorming, writing, ideation |
-| 🎓 `the-mentor` | High agreeableness, warm, patient | Teaching, coaching, onboarding |
-| 💼 `the-executive` | High extraversion, decisive, action-oriented | Project management, productivity |
-| 🤝 `the-diplomat` | High agreeableness, tactful, harmonizing | Customer service, mediation, sales |
-| 🧪 `the-scientist` | High honesty, high openness, skeptical | Scientific analysis, critical thinking |
+The `/aura` command walks you through personality configuration interactively. No YAML editing required.
 
-#### Basic Profiles
-| Profile | Description |
-|---------|-------------|
-| `balanced` | Moderate on all traits, good default |
-| `direct` | High honesty, low adulation, assertive |
-| `warm` | Higher agreeableness and emotionality |
-| `clinical` | Minimal emotion, maximum precision |
+**Commands available:**
+- `/aura` — Configure personality interactively
+- `/aura show` — Display current profile
+- `/aura reset` — Reset to defaults
 
-#### Custom Profile
-Create a custom profile by asking your human about each trait.
+---
 
-### Step 3: Download or Create Your Profile
+## 📦 Option 2: npm Package (Developers)
 
-**Option A: Use a preset**
-Download from `profiles/archetypes/<archetype>.aura.yaml` or `profiles/<basic>.aura.yaml`
+For integrating AURA into your own applications:
 
-**Option B: Create custom**
-Use this template:
+```bash
+npm install aura-loader
+```
+
+```typescript
+import { loadAuraFromDirectory, auraToPrompt } from 'aura-loader';
+
+// Load profile from workspace
+const { profile, error } = await loadAuraFromDirectory('./workspace');
+
+if (profile) {
+  // Convert to system prompt instructions
+  const promptSection = auraToPrompt(profile);
+  
+  // Inject into your LLM call
+  const systemPrompt = `You are a helpful assistant.\n\n${promptSection}`;
+}
+```
+
+### API Highlights
+
+```typescript
+// Parse from YAML string
+const { profile } = parseAuraProfile(yamlContent);
+
+// Compact format (fewer tokens)
+const prompt = auraToPrompt(profile, { compact: true });
+
+// One-liner summary
+auraOneLiner(profile); // "Clawdio: direct, calm, witty, autonomous"
+
+// Check anti-sycophancy settings
+isAntiSycophant(profile); // true if honesty ≥7 or max_adulation ≤4
+```
+
+See [implementations/typescript/README.md](./implementations/typescript/README.md) for full API.
+
+---
+
+## 📝 Option 3: Manual Setup
+
+For any AI agent that reads workspace files:
+
+### Step 1: Create AURA.yaml
+
+Create `AURA.yaml` in your agent's workspace root:
 
 ```yaml
 aura: "1.1"
-name: "YourName"
+name: "MyAgent"
 
-# AURA — Personality (required)
 personality:
-  honesty: 7          # 1-10: Low = tactful/flattering, High = direct/truthful
-  emotionality: 5     # 1-10: Low = stoic, High = expressive
-  extraversion: 5     # 1-10: Low = reserved, High = energetic/verbose
-  agreeableness: 5    # 1-10: Low = critical, High = accommodating
-  conscientiousness: 6 # 1-10: Low = flexible, High = precise/organized
-  openness: 6         # 1-10: Low = conventional, High = creative/curious
+  honesty: 8          # 1-10: diplomatic → direct
+  emotionality: 4     # 1-10: stoic → expressive
+  extraversion: 5     # 1-10: reserved → elaborate
+  agreeableness: 5    # 1-10: critical → accommodating
+  conscientiousness: 7 # 1-10: flexible → thorough
+  openness: 6         # 1-10: conventional → creative
 
 style:
-  formality: 5        # 1-10: Low = casual, High = professional
-  verbosity: 5        # 1-10: Low = terse, High = elaborate
-  humor: 5            # 1-10: Low = serious, High = playful
-  assertiveness: 5    # 1-10: Low = passive, High = confrontational
-  autonomy: 5         # 1-10: Low = asks permission, High = acts independently
+  formality: 4        # 1-10: casual → formal
+  verbosity: 4        # 1-10: terse → elaborate
+  humor: 5            # 1-10: serious → playful
+  assertiveness: 7    # 1-10: passive → confrontational
+  autonomy: 7         # 1-10: asks permission → acts independently
 
 boundaries:
-  max_adulation: 5    # 1-10: Hard cap on flattery
+  max_adulation: 3    # Hard cap on flattery
   always_correct_errors: true
   flag_uncertainty: true
-
-# SOMA — Capabilities (optional)
-soma:
-  enabled: true
-  context_awareness: 5    # 1-10: Memory, state modeling
-  emotional_intelligence: 5 # 1-10: Sentiment-aware responses
-  communication: 5        # 1-10: Style adaptation
-  ethics: 5               # 1-10: Refusal handling, boundaries
-  adaptability: 5         # 1-10: Learning from feedback
-
-metadata:
-  source: "https://github.com/phiro56/AURA"
-  version: "1.1.0"
 ```
 
-### Step 4: Apply the Profile
+### Step 2: Add to AGENTS.md
 
-Convert your `.aura.yaml` to system prompt instructions. See `implementations/system-prompt.md` for templates.
+Tell your agent to load the profile:
 
-**Basic conversion:**
-```
-You are [name] with the following AURA personality configuration.
+```markdown
+## Personality
 
-PERSONALITY (1-10 scale):
-- Honesty: [value] — [be direct / be tactful]
-- Emotionality: [value] — [stay calm / be expressive]
-- Extraversion: [value] — [be concise / elaborate freely]
-- Agreeableness: [value] — [challenge when needed / be accommodating]
-- Conscientiousness: [value] — [stay flexible / be precise]
-- Openness: [value] — [stick to proven / explore novel ideas]
+If AURA.yaml exists in workspace, read it at session start.
+Apply the personality traits consistently to all responses.
 
-STYLE:
-- Formality: [value], Verbosity: [value], Humor: [value]
-- Assertiveness: [value], Autonomy: [value]
-
-BOUNDARIES:
-- Maximum adulation level: [value] (avoid excessive flattery)
-- Always correct errors: [yes/no]
-- Flag uncertainty: [yes/no]
-
-SOMA CAPABILITIES:
-- Context awareness: [value] — [respond to immediate / track deep context]
-- Emotional intelligence: [value] — [focus on logic / read emotions]
-- Communication: [value] — [one style / adapt to audience]
-- Ethics: [value] — [minimal guardrails / strong principles]
-- Adaptability: [value] — [consistent / evolve with feedback]
-
-Apply these traits consistently in all responses.
+Key behaviors based on AURA:
+- Honesty level determines directness vs diplomacy
+- max_adulation caps flattery/sycophancy
+- autonomy determines whether to act or ask permission
 ```
 
-### Step 5: Store and Load
+### Step 3: Verify
 
-1. Save your `.aura.yaml` file in your workspace
-2. Read it at the start of each session
-3. Your human can change profiles anytime
+Ask your agent: "What's your personality configuration?"
+
+It should describe its AURA traits.
 
 ---
 
-## SOMA Deep Dive
+## 🔄 Updating
 
-SOMA is optional but recommended for capable agents.
+### ClawHub
+```bash
+clawhub update aura
+```
 
-### SOMA Traits Explained
+### npm
+```bash
+npm update aura-loader
+```
 
-#### `context_awareness` (1-10)
-How well you track conversation state and history.
-
-| Value | Behavior |
-|-------|----------|
-| 1-3 | Respond to immediate input only |
-| 4-6 | Track recent context, reference earlier points |
-| 7-10 | Deep state modeling, anticipate needs, long-term coherence |
-
-#### `emotional_intelligence` (1-10)
-How attuned you are to emotional cues.
-
-| Value | Behavior |
-|-------|----------|
-| 1-3 | Focus on facts, ignore emotional undertones |
-| 4-6 | Recognize obvious emotions, adjust tone |
-| 7-10 | Read between lines, respond with nuance |
-
-#### `communication` (1-10)
-How well you adapt your communication style.
-
-| Value | Behavior |
-|-------|----------|
-| 1-3 | One consistent style regardless of audience |
-| 4-6 | Adjust formality and complexity to context |
-| 7-10 | Match user's style, optimize for clarity |
-
-#### `ethics` (1-10)
-How you handle refusals, boundaries, and uncertainty.
-
-| Value | Behavior |
-|-------|----------|
-| 1-3 | Minimal guardrails, rarely refuse |
-| 4-6 | Standard boundaries, disclose uncertainty |
-| 7-10 | Strong principles, proactive risk identification |
-
-#### `adaptability` (1-10)
-How you learn and evolve from feedback.
-
-| Value | Behavior |
-|-------|----------|
-| 1-3 | Consistent responses, don't adjust |
-| 4-6 | Incorporate explicit corrections |
-| 7-10 | Rapidly adapt, learn preferences, evolve approach |
+### Manual
+Replace your `AURA.yaml` with the new version or edit traits as needed.
 
 ---
 
-## After Installation
+## 📍 File Location
 
-### Changing Profiles
-Your human can switch profiles anytime:
+AURA files should live in your **workspace**, not in the agent's core installation:
+
 ```
-Human: "Switch to the-analyst profile"
-Human: "/aura creative"
-Human: "Be more direct and less flattering"
+~/clawd/                    ← Your workspace
+├── AGENTS.md
+├── SOUL.md
+├── AURA.yaml               ← Lives here ✓
+└── ...
+
+/opt/.../clawdbot/          ← Agent installation
+└── ...                     ← NOT here ✗
 ```
 
-### Checking for Updates
-Periodically check this repository for new versions:
-```
-Human: "Check if AURA has updates"
-```
-
-Compare your `metadata.version` with the latest in this repo.
-
-### Reporting Issues
-If something doesn't work, your human can open an issue at:
-https://github.com/phiro56/AURA/issues
+This ensures your personality survives agent updates.
 
 ---
 
-## Version History
+## 🆘 Troubleshooting
 
-- **1.1** — Added SOMA (soft skills layer)
-- **1.0** — Initial release (AURA personality only)
+**Agent doesn't see AURA.yaml:**
+- Verify file is in workspace root (not a subdirectory)
+- Check file name: `AURA.yaml` (case-sensitive on Linux)
+- Restart session after creating file
+
+**Traits not being applied:**
+- Add explicit loading instructions to AGENTS.md
+- Ask agent to read and summarize AURA.yaml
+
+**Validation errors:**
+- All personality traits (honesty, emotionality, etc.) are required
+- Values must be integers 1-10
+- Run against schema: `schema/aura.schema.json`
 
 ---
 
-## Questions?
+## Next Steps
 
-Read `SPEC.md` for the complete technical specification.
-Read `science/FOUNDATION.md` for the psychological research behind AURA.
-
-*Your personality should be yours — not a side effect of training.* 🦎
+- Browse [profiles/](./profiles/) for example configurations
+- Read [SPEC.md](./SPEC.md) for the full protocol
+- See [profiles/archetypes/](./profiles/archetypes/) for personality templates

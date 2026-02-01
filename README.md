@@ -24,12 +24,71 @@ personality:
   autonomy: 7     # Acts, then reports
 boundaries:
   max_adulation: 3  # Zero sycophancy
+```
 
-# This is my SOMA (optional soft skills)
-soma:
-  context_awareness: 8     # Remembers, anticipates
-  emotional_intelligence: 6  # Reads the room
-  adaptability: 7          # Learns from feedback
+---
+
+## 🚀 Installation
+
+### For OpenClaw/Clawdbot Users (Recommended)
+
+```bash
+# Install from ClawHub
+clawhub install aura
+
+# Then use the command
+/aura
+```
+
+The `/aura` command walks you through personality configuration interactively.
+
+### For Developers
+
+```bash
+npm install aura-loader
+```
+
+```typescript
+import { loadAuraFromDirectory, auraToPrompt } from 'aura-loader';
+
+const { profile } = await loadAuraFromDirectory('./workspace');
+const promptSection = auraToPrompt(profile);
+// Inject into your system prompt
+```
+
+See [implementations/typescript/](./implementations/typescript/) for full API.
+
+### Manual Setup
+
+Create `AURA.yaml` in your agent's workspace:
+
+```yaml
+aura: "1.1"
+name: "MyAgent"
+
+personality:
+  honesty: 8
+  emotionality: 4
+  extraversion: 5
+  agreeableness: 5
+  conscientiousness: 7
+  openness: 6
+
+style:
+  formality: 4
+  verbosity: 4
+  humor: 5
+  assertiveness: 7
+
+boundaries:
+  max_adulation: 3
+  always_correct_errors: true
+```
+
+Add to your `AGENTS.md`:
+```markdown
+## Personality
+If AURA.yaml exists, read it at session start and apply traits to all responses.
 ```
 
 ---
@@ -55,41 +114,6 @@ A universal, scientifically-grounded protocol that:
 2. **Is portable** — works across OpenAI, Anthropic, open-source models
 3. **Is configurable** — humans choose their preferred balance
 4. **Is measurable** — you can evaluate if a model follows the spec
-
----
-
-## Quick Start
-
-```yaml
-# my-agent.aura.yaml
-aura: "1.0"
-name: "MyAgent"
-
-personality:
-  honesty: 8
-  emotionality: 4
-  extraversion: 5
-  agreeableness: 5
-  conscientiousness: 7
-  openness: 6
-
-style:
-  formality: 4
-  verbosity: 4
-  humor: 5
-  assertiveness: 7
-
-boundaries:
-  max_adulation: 3
-  always_correct_errors: true
-```
-
-Then include in your system prompt:
-```
-[Load AURA profile: my-agent.aura.yaml]
-```
-
-See [implementations/](./implementations/) for model-specific guides.
 
 ---
 
@@ -139,8 +163,6 @@ While AURA defines *who* your agent is, **SOMA** (Skill Operations & Mental Agil
 | `ethics` | Refusal handling, uncertainty disclosure |
 | `adaptability` | Feedback integration, learning |
 
-SOMA is optional — omit it for AURA-only mode, or add it for a complete agent definition.
-
 ```yaml
 soma:
   enabled: true
@@ -157,7 +179,7 @@ See [SPEC.md](./SPEC.md#6-soma--soft-skills--capabilities-optional) for full doc
 
 ## Archetypes — Quick Start
 
-Don't know where to start? Pick an archetype based on what you need:
+Don't know where to start? Pick an archetype:
 
 | Archetype | Personality | Best For |
 |-----------|-------------|----------|
@@ -174,8 +196,6 @@ See [profiles/archetypes/](./profiles/archetypes/) for ready-to-use configuratio
 
 ## Basic Profiles
 
-Simpler starting points:
-
 | Profile | Description | Use Case |
 |---------|-------------|----------|
 | `balanced` | Default, moderate on all traits | General assistant |
@@ -184,6 +204,40 @@ Simpler starting points:
 | `clinical` | Minimal emotion, maximum precision | Medical, legal, factual |
 
 See [profiles/](./profiles/) for all configurations.
+
+---
+
+## Project Structure
+
+```
+AURA/
+├── SPEC.md                    # Full protocol specification
+├── schema/
+│   └── aura.schema.json       # JSON Schema for validation
+├── profiles/
+│   ├── archetypes/            # Pre-built personality archetypes
+│   └── *.aura.yaml            # Example profiles
+├── implementations/
+│   ├── typescript/            # npm: aura-loader
+│   └── system-prompt.md       # Integration guide
+├── skills/
+│   └── aura/                  # ClawHub skill (/aura command)
+└── science/
+    └── FOUNDATION.md          # Research references
+```
+
+---
+
+## Roadmap
+
+- [x] v1.1 Specification with SOMA
+- [x] JSON Schema for validation
+- [x] TypeScript implementation (npm: aura-loader)
+- [x] ClawHub skill (/aura command)
+- [ ] Python implementation
+- [ ] Measurement tools (evaluate if model follows spec)
+- [ ] Community profiles repository
+- [ ] Academic paper on AI personality portability
 
 ---
 
@@ -197,17 +251,6 @@ AURA is open source and community-driven. We welcome:
 - Translations
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
-
----
-
-## Roadmap
-
-- [ ] v1.0 Specification finalized
-- [ ] JSON Schema for validation
-- [ ] Implementation guides (OpenAI, Anthropic, Llama, Mistral)
-- [ ] Measurement tools (evaluate if model follows AURA spec)
-- [ ] Community profiles repository
-- [ ] Academic paper on AI personality portability
 
 ---
 
