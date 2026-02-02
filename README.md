@@ -1,48 +1,115 @@
-# AURA
+<p align="center">
+  <img src="assets/AURA-Banner.png" alt="AURA - Your agent's personality. Your rules." width="100%">
+</p>
 
-**Agent Universal Response Attributes**
-
-*Your agent's personality should be yours — not a side effect of training.*
+<p align="center">
+  <a href="https://github.com/phiro56/AURA/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
+  <a href="https://github.com/phiro56/AURA/releases"><img src="https://img.shields.io/badge/version-1.1.0-green.svg" alt="Version"></a>
+  <a href="https://www.clawhub.ai/skills/aura"><img src="https://img.shields.io/badge/ClawHub-aura-orange.svg" alt="ClawHub"></a>
+  <a href="https://github.com/openclaw/openclaw/discussions/5826"><img src="https://img.shields.io/badge/OpenClaw-Discussion-purple.svg" alt="OpenClaw Discussion"></a>
+</p>
 
 ---
 
-## What's Your AURA?
+## ⚡ Quick Start (Recommended)
 
-Every person has an aura — an energy, a vibe, a way of being in the world.
+**Using OpenClaw or Clawdbot?** Install in seconds:
 
-Your AI agent should have one too. Not the generic personality that OpenAI or Anthropic decided to ship. Not the sycophantic "Great question!" or the robotic "I cannot assist with that." 
+```bash
+clawhub install aura
+```
 
-**Your AURA. Your rules.**
+Then run:
 
-AURA is an open protocol for defining AI personality — scientifically grounded, portable across models, and entirely in your control.
+```
+/aura
+```
+
+That's it! The command walks you through personality configuration interactively.
+
+👉 **[View on ClawHub](https://www.clawhub.ai/skills/aura)**
+
+---
+
+## What is AURA?
+
+**AURA** (Agent Universal Response Attributes) is an open protocol for defining AI agent personality — scientifically grounded in psychology research, portable across models, and entirely in your control.
 
 ```yaml
-# This is my AURA
+# Example: A direct, no-nonsense assistant
 personality:
   honesty: 8      # Direct, no sugar-coating
   humor: 6        # Witty when appropriate
   autonomy: 7     # Acts, then reports
+
 boundaries:
   max_adulation: 3  # Zero sycophancy
 ```
 
+**The problem:** AI models come with baked-in personality biases. Some are sycophantic ("Great question!"). Some are robotic. None are *yours*.
+
+**The solution:** AURA lets you define the personality you want — not the personality Big Tech decided to ship.
+
 ---
 
-## 🚀 Installation
+## 🔬 The Science
 
-### For OpenClaw/Clawdbot Users (Recommended)
+AURA uses the **HEXACO model** — a well-validated personality framework with 20+ years of peer-reviewed research.
+
+| Trait | AI Application |
+|-------|----------------|
+| **H**onesty-Humility | Anti-sycophancy, truthfulness |
+| **E**motionality | Emotional expression level |
+| **X** (Extraversion) | Verbosity, initiative |
+| **A**greeableness | Cooperation (not submission) |
+| **C**onscientiousness | Structure, following instructions |
+| **O**penness | Creative, unconventional responses |
+
+See [science/FOUNDATION.md](./science/FOUNDATION.md) for research references.
+
+---
+
+## 🎭 Archetypes
+
+Don't know where to start? Pick a preset:
+
+| Archetype | Best For |
+|-----------|----------|
+| 🔬 **The Analyst** | Research, code review, fact-checking |
+| 🎨 **The Creative** | Brainstorming, writing, ideation |
+| 🎓 **The Mentor** | Teaching, coaching, onboarding |
+| 💼 **The Executive** | Project management, productivity |
+| 🤝 **The Diplomat** | Customer service, mediation |
+| 🧪 **The Scientist** | Scientific analysis, critical thinking |
+
+See [profiles/archetypes/](./profiles/archetypes/) for configurations.
+
+---
+
+## 📊 Adulation Rate
+
+A key metric AURA addresses: **how often an AI flatters instead of informs**.
+
+```
+Adulation Rate = (Adulating responses) / (Total responses)
+```
+
+High adulation = "That's an incredibly insightful question!" (for basic prompts)
+
+AURA's `max_adulation` boundary directly controls this. Set it low for honest feedback.
+
+---
+
+## 🛠️ Installation Options
+
+### Option 1: ClawHub Skill (Easiest)
 
 ```bash
-# Install from ClawHub
 clawhub install aura
-
-# Then use the command
 /aura
 ```
 
-The `/aura` command walks you through personality configuration interactively.
-
-### For Developers
+### Option 2: npm Package (For Developers)
 
 ```bash
 npm install aura-loader
@@ -53,14 +120,13 @@ import { loadAuraFromDirectory, auraToPrompt } from 'aura-loader';
 
 const { profile } = await loadAuraFromDirectory('./workspace');
 const promptSection = auraToPrompt(profile);
-// Inject into your system prompt
 ```
 
 See [implementations/typescript/](./implementations/typescript/) for full API.
 
-### Manual Setup
+### Option 3: Manual Setup
 
-Create `AURA.yaml` in your agent's workspace:
+Create `AURA.yaml` in your workspace:
 
 ```yaml
 aura: "1.1"
@@ -79,189 +145,81 @@ style:
   verbosity: 4
   humor: 5
   assertiveness: 7
+  autonomy: 6
 
 boundaries:
   max_adulation: 3
   always_correct_errors: true
+  flag_uncertainty: true
 ```
 
-Add to your `AGENTS.md`:
-```markdown
-## Personality
-If AURA.yaml exists, read it at session start and apply traits to all responses.
-```
+See [SPEC.md](./SPEC.md) for full specification.
 
 ---
 
-## Why AURA?
-
-Every AI model comes with baked-in personality biases from pretraining and RLHF. Some are sycophantic. Some are overly cautious. Some are robotic.
-
-**AURA lets humans define the personality they want** — not the personality Big Tech decided to ship.
-
-### The Problem
-
-- Models default to excessive praise ("Great question!") even when unwarranted
-- RLHF rewards agreeableness over honesty
-- Personality is model-dependent and non-portable
-- No standard way to specify "how" an AI should behave
-
-### The Solution
-
-A universal, scientifically-grounded protocol that:
-
-1. **Defines personality traits** based on HEXACO psychology model
-2. **Is portable** — works across OpenAI, Anthropic, open-source models
-3. **Is configurable** — humans choose their preferred balance
-4. **Is measurable** — you can evaluate if a model follows the spec
-
----
-
-## The Science
-
-AURA is grounded in the **HEXACO model** of personality — a well-validated psychological framework with decades of peer-reviewed research.
-
-| Trait | What it measures | AI Application |
-|-------|------------------|----------------|
-| **H**onesty-Humility | Sincerity, fairness, modesty | Anti-sycophancy, truthfulness |
-| **E**motionality | Anxiety, sentimentality, dependence | Emotional expression level |
-| **X** (Extraversion) | Sociability, liveliness, expressiveness | Verbosity, initiative |
-| **A**greeableness | Patience, tolerance, gentleness | Cooperation (not submission) |
-| **C**onscientiousness | Organization, diligence, perfectionism | Structure, following instructions |
-| **O**penness | Creativity, curiosity, unconventionality | Novel responses, exploration |
-
-See [science/FOUNDATION.md](./science/FOUNDATION.md) for research references.
-
----
-
-## Adulation Rate
-
-A key metric AURA addresses: **how often an AI flatters instead of informing**.
-
-```
-Adulation Rate = (Adulating responses) / (Total responses)
-```
-
-High adulation:
-- "That's an incredibly insightful question!" (for basic prompts)
-- "You're absolutely right" (when they're wrong)
-- Soft agreement instead of correction
-
-AURA's `honesty` trait and `max_adulation` boundary directly control this.
-
----
-
-## SOMA — Soft Skills (Optional)
-
-While AURA defines *who* your agent is, **SOMA** (Skill Operations & Mental Agility) defines *what* your agent can do.
-
-| Skill | What it measures |
-|-------|------------------|
-| `context_awareness` | State modeling, memory, coherence |
-| `emotional_intelligence` | Sentiment-aware responses |
-| `communication` | Style adaptation, clarity |
-| `ethics` | Refusal handling, uncertainty disclosure |
-| `adaptability` | Feedback integration, learning |
-
-```yaml
-soma:
-  enabled: true
-  context_awareness: 7
-  emotional_intelligence: 6
-  communication: 6
-  ethics: 8
-  adaptability: 7
-```
-
-See [SPEC.md](./SPEC.md#6-soma--soft-skills--capabilities-optional) for full documentation.
-
----
-
-## Archetypes — Quick Start
-
-Don't know where to start? Pick an archetype:
-
-| Archetype | Personality | Best For |
-|-----------|-------------|----------|
-| 🔬 **The Analyst** | High honesty, high conscientiousness | Research, code review, fact-checking |
-| 🎨 **The Creative** | High openness, playful | Brainstorming, writing, ideation |
-| 🎓 **The Mentor** | High agreeableness, warm | Teaching, coaching, onboarding |
-| 💼 **The Executive** | High extraversion, decisive | Project management, productivity |
-| 🤝 **The Diplomat** | High agreeableness, tactful | Customer service, mediation, sales |
-| 🧪 **The Scientist** | High honesty, high openness | Scientific analysis, critical thinking |
-
-See [profiles/archetypes/](./profiles/archetypes/) for ready-to-use configurations.
-
----
-
-## Basic Profiles
-
-| Profile | Description | Use Case |
-|---------|-------------|----------|
-| `balanced` | Default, moderate on all traits | General assistant |
-| `direct` | High honesty, low adulation, assertive | Technical work, research |
-| `warm` | Higher agreeableness, emotionality | Support, companionship |
-| `clinical` | Minimal emotion, maximum precision | Medical, legal, factual |
-
-See [profiles/](./profiles/) for all configurations.
-
----
-
-## Project Structure
+## 📁 Project Structure
 
 ```
 AURA/
 ├── SPEC.md                    # Full protocol specification
+├── CHANGELOG.md               # Version history
+├── assets/                    # Logo and images
 ├── schema/
 │   └── aura.schema.json       # JSON Schema for validation
 ├── profiles/
 │   ├── archetypes/            # Pre-built personality archetypes
 │   └── *.aura.yaml            # Example profiles
 ├── implementations/
-│   ├── typescript/            # npm: aura-loader
-│   └── system-prompt.md       # Integration guide
+│   └── typescript/            # npm: aura-loader
 ├── skills/
-│   └── aura/                  # ClawHub skill (/aura command)
+│   └── aura/                  # ClawHub skill
 └── science/
     └── FOUNDATION.md          # Research references
 ```
 
 ---
 
-## Roadmap
+## 🗺️ Roadmap
 
-- [x] v1.1 Specification with SOMA
+- [x] v1.1 Specification
 - [x] JSON Schema for validation
-- [x] TypeScript implementation (npm: aura-loader)
-- [x] ClawHub skill (/aura command)
+- [x] TypeScript implementation
+- [x] ClawHub skill
 - [ ] Python implementation
-- [ ] Measurement tools (evaluate if model follows spec)
+- [ ] Measurement tools
 - [ ] Community profiles repository
-- [ ] Academic paper on AI personality portability
+- [ ] VS Code extension
 
 ---
 
-## Contributing
+## 🤝 Contributing
 
-AURA is open source and community-driven. We welcome:
+We welcome contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
-- New profile templates
-- Implementation guides for different models
-- Research on personality measurement
-- Translations
-
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+**Quick ways to contribute:**
+- Submit new personality profiles
+- Add implementation guides for other frameworks
+- Improve documentation
+- Report bugs or suggest features
 
 ---
 
-## License
+## 📜 License
 
 MIT — Use freely, contribute back.
 
 ---
 
-## Authors
+## 🔗 Links
 
-Created by [Daniel Phillips](https://github.com/phiro56) and [Clawdio](https://github.com/phiro56/AURA).
+- **ClawHub Skill:** [clawhub.ai/skills/aura](https://www.clawhub.ai/skills/aura)
+- **OpenClaw Discussion:** [github.com/openclaw/openclaw/discussions/5826](https://github.com/openclaw/openclaw/discussions/5826)
+- **npm Package:** `aura-loader`
+- **Specification:** [SPEC.md](./SPEC.md)
 
-*"Your agent's personality should be your choice, not a side effect of training."*
+---
+
+<p align="center">
+  <em>Created by <a href="https://github.com/phiro56">Daniel Phillips</a> and <a href="https://moltbook.com/u/ClawdioPhillips">Clawdio</a></em><br>
+  <em>"Your agent's personality should be your choice, not a side effect of training."</em>
+</p>
