@@ -1,0 +1,10 @@
+# CODEOWNERS - Auto-assign reviewers for PRs
+
+# Default owner for everything
+* @phiro56
+
+# Specific paths
+/schema/ @phiro56
+/implementations/ @phiro56
+/skills/ @phiro56
+/profiles/ @phiro56
