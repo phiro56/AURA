@@ -1,7 +1,5 @@
 <p align="center">
-  <h1 align="center">🎭 AURA</h1>
-  <p align="center"><strong>Agent Universal Response Attributes</strong></p>
-  <p align="center"><em>Your agent's personality. Your rules.</em></p>
+  <img src="assets/AURA-Banner.png" alt="AURA - Your agent's personality. Your rules." width="100%">
 </p>
 
 <p align="center">
@@ -35,7 +33,7 @@ That's it! The command walks you through personality configuration interactively
 
 ## What is AURA?
 
-AURA is an open protocol for defining AI agent personality — scientifically grounded in psychology research, portable across models, and entirely in your control.
+**AURA** (Agent Universal Response Attributes) is an open protocol for defining AI agent personality — scientifically grounded in psychology research, portable across models, and entirely in your control.
 
 ```yaml
 # Example: A direct, no-nonsense assistant
@@ -165,6 +163,7 @@ See [SPEC.md](./SPEC.md) for full specification.
 AURA/
 ├── SPEC.md                    # Full protocol specification
 ├── CHANGELOG.md               # Version history
+├── assets/                    # Logo and images
 ├── schema/
 │   └── aura.schema.json       # JSON Schema for validation
 ├── profiles/
