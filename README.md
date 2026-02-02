@@ -182,7 +182,7 @@ AURA/
 
 ## 🗺️ Roadmap
 
-- [x] v1.1 Specification with SOMA
+- [x] v1.1 Specification
 - [x] JSON Schema for validation
 - [x] TypeScript implementation
 - [x] ClawHub skill
